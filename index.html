@@ -1,269 +1,75 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#142b23">
-  <title>Klint v0.2.0 — Gongonia Games</title>
-  <style>
-    :root{color-scheme:dark;--panel:#1c352b;--panel-light:#274639;--text:#f5f5e9;--muted:#b9cbbd;--gold:#f2c66d;--sky1:#74c5e5;--sky2:#d9eac6;--ground:#7ba94d;--trunk:#80502e;--leaf1:#43863b;--leaf2:#66aa49;--shirt:#458b62;--scarf:#e8bd55}
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:#10251e;color:var(--text);font-family:system-ui,-apple-system,sans-serif}button{font:inherit;cursor:pointer;touch-action:manipulation}[hidden]{display:none!important}
-    .app{width:min(100%,820px);margin:0 auto;padding:18px 16px 34px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}.brand{color:var(--gold);font-weight:950;font-size:25px;letter-spacing:4px;white-space:nowrap}.brand small{display:block;color:var(--muted);font-size:10px;font-weight:600;letter-spacing:2px}.top-controls{display:flex;align-items:center;justify-content:flex-end;gap:6px}.tag{border:1px solid #426450;background:#1c352b;padding:7px 10px;border-radius:999px;color:#dce9da;font-size:12px;white-space:nowrap}.icon-button{width:34px;height:34px;display:grid;place-items:center;flex:0 0 34px;border:1px solid #426450;border-radius:10px;background:#1c352b;color:var(--text);font-size:18px;line-height:1;padding:0}.icon-button:active{transform:scale(.96)}.icon-button.reset{font-size:21px}
-    .panel{background:var(--panel);border:1px solid #365643;border-radius:20px;padding:20px;box-shadow:0 12px 30px #06140e55}h1,h2,p{margin-top:0}h1{font-size:clamp(27px,7vw,43px);line-height:1.1}h2{font-size:22px}.muted{color:var(--muted);line-height:1.5}.gold{color:var(--gold)}.home-heading{margin-bottom:14px}.home-heading p{margin-bottom:0}
-    .button{display:flex;width:100%;align-items:center;justify-content:center;gap:9px;border:0;border-radius:13px;padding:15px 18px;min-height:52px;font-weight:850;color:#13281c;background:var(--gold);box-shadow:0 4px 0 #9b7533}.button:active{transform:translateY(2px);box-shadow:0 2px 0 #9b7533}.button.secondary{color:var(--text);background:var(--panel-light);border:1px solid #476851;box-shadow:none}.button.hit{color:#102418;background:#9bd58a;font-size:19px;min-height:64px;box-shadow:0 5px 0 #477a43}
-    .scene{position:relative;isolation:isolate;overflow:hidden;min-height:255px;border:3px solid #4e704f;border-radius:17px;background:linear-gradient(var(--sky1),var(--sky2) 76%);margin-bottom:18px}.scene:before{content:"";position:absolute;left:-10%;right:-10%;bottom:17%;height:32%;z-index:-1;background:#8bba72;border-radius:50% 50% 0 0}.scene:after{content:"";position:absolute;inset:auto 0 0;height:21%;z-index:-1;background:var(--ground)}
-    .scene[data-season="otono"]{--sky1:#e6a96d;--sky2:#f2d9a7;--ground:#9c7742;--trunk:#754329;--leaf1:#b9562e;--leaf2:#e09a3e;--shirt:#617b42;--scarf:#b63c2f}.scene[data-season="invierno"]{--sky1:#8bb5cf;--sky2:#e2ecf1;--ground:#c8d8da;--trunk:#654d40;--leaf1:#d5e4e8;--leaf2:#edf5f5;--shirt:#42677f;--scarf:#b9473c}.scene[data-season="primavera"]{--sky1:#75c9da;--sky2:#e1efc1;--ground:#8bbf58;--trunk:#80502e;--leaf1:#55a74e;--leaf2:#8ac85d;--shirt:#78a86b;--scarf:#e8bd55}
-    .sun{position:absolute;top:10%;right:12%;width:43px;height:43px;border-radius:50%;background:#fff1af;box-shadow:0 0 28px #fff5bc88}.cloud{position:absolute;top:16%;left:12%;width:68px;height:19px;border-radius:30px;background:#ffffff9c}.cloud:before,.cloud:after{content:"";position:absolute;border-radius:50%;background:inherit}.cloud:before{width:29px;height:29px;left:12px;bottom:2px}.cloud:after{width:35px;height:35px;left:31px;bottom:0}
-    .tree{position:absolute;width:158px;height:205px;right:9%;bottom:12%}.trunk{position:absolute;width:37px;height:110px;left:62px;bottom:0;background:var(--trunk);border-radius:9px 9px 3px 3px;box-shadow:inset 8px 0 #ffffff10}.crown{position:absolute;width:116px;height:108px;top:4px;left:21px;background:var(--leaf1);border-radius:48% 51% 45% 43%;box-shadow:-24px 26px 0 -5px var(--leaf2),21px 27px 0 -3px var(--leaf2),0 -12px 0 -6px var(--leaf2)}.leaf-mark{position:absolute;width:25px;height:21px;background:var(--leaf2);border-radius:50%;top:32px;left:37px}.leaf-mark.two{top:59px;left:84px}.leaf-mark.three{top:11px;left:68px}.scene[data-season="invierno"] .crown{border-radius:44% 51% 45% 43%;background:#eaf2f2}.scene[data-season="invierno"] .leaf-mark{background:#d2e5ee}.scene[data-season="invierno"] .tree:after{content:"❄";position:absolute;top:22px;left:50px;color:#f7ffff;font-size:32px}.scene[data-season="primavera"] .tree:after{content:"✿";position:absolute;top:42px;left:32px;color:#ffd1df;font-size:20px;text-shadow:34px 24px #ffd1df,66px -7px #ffe6a6}
-    .klint{position:absolute;width:123px;height:210px;left:10%;bottom:9%;transform-origin:55% 85%;transition:transform .1s;filter:drop-shadow(0 4px 2px #24302035)}.preview-scene .klint{transform:scale(.88);transform-origin:bottom left}.klint .body{fill:var(--shirt)}.klint .scarf{fill:var(--scarf)}.klint.is-swinging{animation:bodySwing .32s ease-in-out}.swing-arm{transform-box:view-box;transform-origin:74px 107px}.klint.is-swinging .swing-arm{animation:axeSwing .32s ease-in-out}@keyframes axeSwing{0%{transform:rotate(0)}45%{transform:rotate(68deg)}75%{transform:rotate(32deg)}100%{transform:rotate(0)}}@keyframes bodySwing{0%,100%{translate:0 0}40%{translate:6px -5px}}.tree.shaking{animation:treeShake .25s ease-in-out}@keyframes treeShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px) rotate(-2deg)}75%{transform:translateX(7px) rotate(2deg)}}.scene-caption{position:absolute;top:10px;left:10px;padding:5px 9px;border-radius:999px;color:#153224;background:#ffffffc9;font-size:11px;font-weight:850}
-    .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}.stat{background:#122a20;border:1px solid #365643;border-radius:14px;padding:13px;min-width:0}.stat label{display:block;color:var(--muted);font-size:12px;margin-bottom:5px}.stat strong{font-size:clamp(19px,5vw,28px);overflow-wrap:anywhere}.last-entry{color:var(--muted);font-size:12px;margin:14px 0;line-height:1.5}.progress-area{margin:14px 0 18px}.progress-label{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12px;color:var(--muted);margin-bottom:7px}.progress-track{height:9px;overflow:hidden;border-radius:999px;background:#0c2118}.progress-fill{height:100%;width:0%;border-radius:inherit;background:linear-gradient(90deg,#8fcb76,#f2c66d);transition:width .25s}.message{min-height:24px;color:var(--gold);text-align:center;font-size:13px;font-weight:750;margin:10px 0}.small-note{margin-top:15px;color:#a9c0ae;font-size:11px;text-align:center;line-height:1.5}.version{font-size:9px;letter-spacing:.3px;opacity:.68;margin-top:7px}.footer{color:#91ad99;text-align:center;font-size:11px;margin:20px 0 0}
-    .loading-screen{position:fixed;inset:0;z-index:10;display:grid;place-items:center;text-align:center;padding:24px;background:radial-gradient(ellipse at top,#31513c,#10251e 68%)}.loading-logo{font-size:clamp(42px,12vw,72px);font-weight:1000;letter-spacing:8px;color:var(--gold);text-shadow:0 5px 25px #0007}.loading-tree{font-size:54px;margin:20px 0 10px}.loading-track{height:5px;width:180px;margin:24px auto;background:#355344;border-radius:999px;overflow:hidden}.loading-fill{height:100%;width:35%;background:var(--gold);border-radius:inherit;animation:loading 1s ease-in-out infinite alternate}@keyframes loading{from{transform:translateX(-20%)}to{transform:translateX(210%)}}
-    @media(max-width:420px){.app{padding:13px 11px 25px}.panel{padding:15px}.scene{min-height:230px}.tree{right:1%;transform:scale(.83);transform-origin:bottom right}.klint{left:3%;transform:scale(.87);transform-origin:bottom left}.preview-scene .klint{transform:scale(.76)}.brand{font-size:22px}.tag{font-size:11px;padding:7px 8px}.topbar{gap:8px}.top-controls{gap:4px}}
-    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-  </style>
+  <meta name="theme-color" content="#173b2c">
+  <title>Tamagotchi de Gongonia</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <section class="loading-screen" id="loadingScreen">
-    <div><div class="loading-logo">KLINT</div><div class="loading-tree">🌳</div><p class="muted">El bosque de Gongonia te espera...</p><div class="loading-track"><div class="loading-fill"></div></div><small class="muted">Preparando la aventura</small></div>
-  </section>
-
-  <main class="app">
-    <header class="topbar">
-      <div class="brand">KLINT<small>GONGONIA GAMES</small></div>
-      <div class="top-controls">
-        <div class="tag" id="headerSeason">☀️ Verano</div>
-        <button class="icon-button home-only" id="editNameButton" type="button" title="Cambiar nombre" aria-label="Cambiar nombre" hidden>✎</button>
-        <button class="icon-button reset home-only" id="resetButton" type="button" title="Reiniciar partida" aria-label="Reiniciar partida" hidden>↻</button>
+  <main id="app" class="app-shell">
+    <section id="loading-screen" class="screen loading-screen active" aria-label="Cargando juego">
+      <div class="loading-content">
+        <div class="brand-mark" aria-hidden="true">✦</div>
+        <p class="eyebrow">GONGONIA WORKS PRESENTA</p>
+        <h1>Tamagotchi<br><span>de Gongonia</span></h1>
+        <p class="loading-message">Preparando el nido mágico…</p>
+        <div class="progress-track" role="progressbar" aria-label="Carga del juego" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="loading-progress" class="progress-fill"></div></div>
+        <p id="loading-percent" class="loading-percent">0%</p>
       </div>
-    </header>
-
-    <section id="homeScreen" class="panel" hidden>
-      <div class="home-heading"><h1>¡Bienvenido, <span id="homeNameHeading">Aventurero</span>!</h1><p class="muted">Tu aventura continúa. Cada golpe cuenta.</p></div>
-      <div class="scene preview-scene" id="homeScene" data-season="verano">
-        <div class="sun"></div><div class="cloud"></div><span class="scene-caption" id="homeSceneCaption">VERANO · NIVEL 0</span>
-        <div class="tree"><div class="crown"><span class="leaf-mark"></span><span class="leaf-mark two"></span><span class="leaf-mark three"></span></div><div class="trunk"></div></div>
-        <svg class="klint" viewBox="0 0 130 220" aria-label="Ilustración provisional de Klint" role="img">
-          <ellipse cx="61" cy="208" rx="33" ry="7" fill="#27372a" opacity=".5"/><path d="M45 158 L43 190 L35 201 L58 201 L66 169 Z" fill="#374b4c"/><path d="M65 165 L72 192 L66 202 L89 202 L89 194 L84 158 Z" fill="#374b4c"/><path d="M32 199 L58 199 L58 207 L29 207 Q24 204 32 199" fill="#44342c"/><path d="M66 199 L90 199 L95 207 L65 207 Z" fill="#44342c"/><path d="M40 100 L76 100 L87 157 L39 157 Z" class="body"/><path d="M48 96 L51 85 L69 85 L72 101 Z" fill="#dba57e"/><path d="M45 43 Q44 23 64 23 Q85 24 83 47 L79 72 Q65 88 49 71 Z" fill="#dba57e"/><path d="M43 47 Q34 27 51 19 Q68 9 82 23 Q92 31 85 49 L76 35 L63 36 L52 30 Z" fill="#254d73"/><path d="M42 42 L35 35 L39 19 L53 11 L64 16 L49 26 Z" fill="#254d73"/><circle cx="56" cy="49" r="2" fill="#293b3d"/><circle cx="72" cy="49" r="2" fill="#293b3d"/><path d="M58 61 Q64 65 70 61" fill="none" stroke="#9c5548" stroke-width="2" stroke-linecap="round"/><path d="M47 88 L69 88 L76 97 L66 111 L51 103 Z" class="scarf"/><path d="M44 105 L35 126 L47 133 L55 113" fill="#dba57e"/><path d="M75 105 L87 91 L94 96 L83 120 L73 117" fill="#dba57e"/><path d="M38 124 L49 130 L45 139 L32 133 Z" class="body"/><g class="swing-arm"><path d="M76 105 Q88 96 91 84 L99 88 Q96 106 82 119 Z" fill="#dba57e"/><line x1="94" y1="91" x2="111" y2="48" stroke="#78502e" stroke-width="7" stroke-linecap="round"/><path d="M104 56 L99 34 Q113 28 122 41 L115 58 Z" fill="#c8d8db" stroke="#657e85" stroke-width="2"/></g><path d="M38 151 L60 151 L61 160 L37 160 Z" fill="#253a47"/>
-        </svg>
-      </div>
-      <div class="stats">
-        <div class="stat"><label>Jugador</label><strong id="homeName">Aventurero</strong></div>
-        <div class="stat"><label>Golpes acumulados</label><strong id="homeScore">0</strong></div>
-        <div class="stat"><label>Nivel actual</label><strong id="homeLevel">Nivel 0</strong></div>
-        <div class="stat"><label>Estación actual</label><strong id="homeSeason">Verano</strong></div>
-      </div>
-      <p class="last-entry" id="lastEntry">Última entrada: —</p>
-      <button class="button" id="startButton" type="button">🪓 COMENZAR / RETOMAR</button>
-      <p class="small-note">Tu progreso se guarda en este navegador. Las cuentas y el ranking mundial se añadirán en una siguiente versión.</p>
-      <p class="small-note version">Klint v0.2.0</p>
     </section>
 
-    <section id="gameScreen" class="panel" hidden>
-      <div class="home-heading"><h1>¡A trabajar, <span id="gameName">Aventurero</span>!</h1><p class="muted">Golpea el árbol y descubre la siguiente estación.</p></div>
-      <div class="stats"><div class="stat"><label>Golpes acumulados</label><strong id="gameScore">0</strong></div><div class="stat"><label>Nivel</label><strong id="gameLevel">Nivel 0</strong></div></div>
-      <div class="progress-area"><div class="progress-label"><span id="progressLabel">Progreso del nivel</span><span id="progressPercent">0%</span></div><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div><p class="last-entry" id="nextLevelText">Siguiente nivel: 1.001 golpes</p></div>
-      <div class="scene" id="gameScene" data-season="verano">
-        <div class="sun"></div><div class="cloud"></div><span class="scene-caption" id="gameSceneCaption">VERANO · NIVEL 0</span>
-        <div class="tree" id="gameTree"><div class="crown"><span class="leaf-mark"></span><span class="leaf-mark two"></span><span class="leaf-mark three"></span></div><div class="trunk"></div></div>
-        <svg class="klint" id="klintSprite" viewBox="0 0 130 220" role="img" aria-label="Klint preparando el hacha"><ellipse cx="61" cy="208" rx="33" ry="7" fill="#27372a" opacity=".5"/><path d="M45 158 L43 190 L35 201 L58 201 L66 169 Z" fill="#374b4c"/><path d="M65 165 L72 192 L66 202 L89 202 L89 194 L84 158 Z" fill="#374b4c"/><path d="M32 199 L58 199 L58 207 L29 207 Q24 204 32 199" fill="#44342c"/><path d="M66 199 L90 199 L95 207 L65 207 Z" fill="#44342c"/><path d="M40 100 L76 100 L87 157 L39 157 Z" class="body"/><path d="M48 96 L51 85 L69 85 L72 101 Z" fill="#dba57e"/><path d="M45 43 Q44 23 64 23 Q85 24 83 47 L79 72 Q65 88 49 71 Z" fill="#dba57e"/><path d="M43 47 Q34 27 51 19 Q68 9 82 23 Q92 31 85 49 L76 35 L63 36 L52 30 Z" fill="#254d73"/><path d="M42 42 L35 35 L39 19 L53 11 L64 16 L49 26 Z" fill="#254d73"/><circle cx="56" cy="49" r="2" fill="#293b3d"/><circle cx="72" cy="49" r="2" fill="#293b3d"/><path d="M58 61 Q64 65 70 61" fill="none" stroke="#9c5548" stroke-width="2" stroke-linecap="round"/><path d="M47 88 L69 88 L76 97 L66 111 L51 103 Z" class="scarf"/><path d="M44 105 L35 126 L47 133 L55 113" fill="#dba57e"/><path d="M75 105 L87 91 L94 96 L83 120 L73 117" fill="#dba57e"/><path d="M38 124 L49 130 L45 139 L32 133 Z" class="body"/><g class="swing-arm"><path d="M76 105 Q88 96 91 84 L99 88 Q96 106 82 119 Z" fill="#dba57e"/><line x1="94" y1="91" x2="111" y2="48" stroke="#78502e" stroke-width="7" stroke-linecap="round"/><path d="M104 56 L99 34 Q113 28 122 41 L115 58 Z" fill="#c8d8db" stroke="#657e85" stroke-width="2"/></g><path d="M38 151 L60 151 L61 160 L37 160 Z" fill="#253a47"/></svg>
+    <section id="home-screen" class="screen home-screen" aria-label="Inicio">
+      <header class="home-header">
+        <p class="eyebrow">UN PEQUEÑO MUNDO MÁGICO</p>
+        <h1>Tamagotchi<br><span>de Gongonia</span></h1>
+        <p class="subtitle">Toda gran aventura comienza con una pequeña criatura.</p>
+      </header>
+      <div class="home-art" aria-hidden="true"><div class="glow-orb"></div><div class="sprout sprout-left">✦</div><div class="sprout sprout-right">✧</div><div class="nest"><div class="nest-straw straw-one"></div><div class="nest-straw straw-two"></div><div class="nest-straw straw-three"></div><div class="egg"><span class="egg-shine"></span><span class="egg-rune">✧</span></div></div></div>
+      <div class="selection-panel">
+        <p class="section-label">TU PRIMERA MASCOTA</p>
+        <button id="pet-option" class="pet-option" type="button" aria-pressed="true">
+          <span class="pet-icon" aria-hidden="true"><span class="mini-worm"><i></i><i></i><i></i></span></span>
+          <span class="pet-option-copy"><strong>Gonguito</strong><small>Insecto mágico · Versión de prueba</small></span>
+          <span class="selected-check" aria-hidden="true">✓</span>
+        </button>
+        <button id="start-button" class="primary-button" type="button">Comenzar aventura <span aria-hidden="true">➜</span></button>
       </div>
-      <p class="message" id="gameMessage" aria-live="polite">¡Elige tu primer golpe!</p>
-      <button class="button hit" id="hitButton" type="button">🪓 GOLPEAR EL ÁRBOL</button>
-      <button class="button secondary" id="homeButton" type="button" style="margin-top:12px">← Volver al inicio</button>
-      <p class="small-note">Un toque registra un golpe. Tu progreso se guarda en este navegador.</p>
-      <p class="small-note version">Klint v0.2.0</p>
+      <footer class="home-footer">
+        <p>Una creación de <strong>Gongonia Works</strong></p>
+        <button id="credits-button" class="text-button" type="button">Créditos</button>
+        <p class="version-label">VERSIÓN 0.1 · EXPERIMENTAL</p>
+      </footer>
+      <div id="credits-panel" class="credits-panel" hidden>
+        <div class="credits-card" role="dialog" aria-modal="true" aria-labelledby="credits-title">
+          <button id="close-credits" class="close-button" aria-label="Cerrar créditos" type="button">×</button>
+          <p class="eyebrow">LOS ARTESANOS DE ESTE MUNDO</p>
+          <h2 id="credits-title">Créditos</h2>
+          <p><strong>Concepto y universo:</strong><br>Gongonia Works</p>
+          <p><strong>Desarrollo:</strong><br>Experimento web creado con HTML, CSS y JavaScript</p>
+          <p class="credits-note">Gracias por cuidar de las pequeñas criaturas de Gongonia.</p>
+        </div>
+      </div>
     </section>
-    <p class="footer">KLINT · Un juego de Gongonia Games</p>
+
+    <section id="pet-screen" class="screen pet-screen" aria-label="Mascota virtual">
+      <header class="pet-topbar"><button id="back-home-button" class="icon-button" type="button" aria-label="Volver al inicio">←</button><div><p class="eyebrow">TU COMPAÑERO</p><h2>Gonguito</h2></div><span class="life-chip">VIDA DE PRUEBA</span></header>
+      <div class="pet-status"><div><span class="status-label">EDAD</span><strong id="age-value">0 min</strong></div><div class="stage-block"><span class="status-label">ETAPA</span><strong id="stage-value">Recién nacido</strong></div></div>
+      <div id="living-scene" class="living-scene">
+        <div class="scene-stars" aria-hidden="true"><span>✦</span><span>✧</span><span>·</span><span>✦</span></div>
+        <div class="ground-hill hill-back"></div><div class="ground-hill hill-front"></div>
+        <div id="worm" class="worm" role="img" aria-label="Gonguito, el pequeño insecto mágico"><span class="worm-segment seg-1"></span><span class="worm-segment seg-2"></span><span class="worm-segment seg-3"></span><span class="worm-segment seg-4"></span><span class="worm-head"><i class="eye eye-left"></i><i class="eye eye-right"></i><span class="smile"></span><i class="antenna antenna-left"></i><i class="antenna antenna-right"></i></span></div>
+        <div class="scene-caption"><span class="pulse-dot"></span> Gonguito vive su ciclo vital</div>
+      </div>
+      <div id="death-scene" class="death-scene" hidden role="button" tabindex="0" aria-label="Lápida de Gonguito. Toca para volver al inicio">
+        <div class="moon">☾</div><div class="tombstone"><span class="tombstone-star">✦</span><strong>RIP</strong><span class="tombstone-line"></span><small>GONGUITO</small><span class="tombstone-flower">✿</span></div>
+        <p class="death-title">El ciclo ha terminado</p><p class="death-copy">Las pequeñas estrellas siempre encuentran el camino a casa.</p><button id="return-home-button" class="primary-button" type="button">Volver al inicio ↺</button><p class="tap-hint">También puedes tocar la lápida</p>
+      </div>
+      <div class="life-timeline"><div class="timeline-labels"><span>Nacimiento</span><span id="remaining-label">180 min de vida</span></div><div class="timeline-track"><div id="life-progress" class="timeline-fill"></div></div><div class="stage-track" id="stage-track"><span class="stage-dot active" title="Recién nacido"></span><span class="stage-dot" title="Bebé"></span><span class="stage-dot" title="Niño"></span><span class="stage-dot" title="Adolescente"></span><span class="stage-dot" title="Adulto joven"></span><span class="stage-dot" title="Adulto mayor"></span><span class="stage-dot" title="Viejo"></span><span class="stage-dot" title="Anciano"></span></div></div>
+      <footer class="pet-footer"><span>EXPERIMENTO DE CICLO VITAL</span><span>VERSIÓN 0.1</span></footer>
+    </section>
   </main>
-
-  <script>
-    "use strict";
-    const SAVE_KEY = "klint-save-v2";
-    const OLD_SAVE_KEY = "klint-save-v1";
-    const seasonNames = ["Verano", "Otoño", "Invierno", "Primavera"];
-    const seasonKeys = ["verano", "otono", "invierno", "primavera"];
-    const seasonIcons = ["☀️", "🍂", "❄️", "🌸"];
-
-    function safeScore(value) {
-      return Number.isSafeInteger(value) && value >= 0 ? value : 0;
-    }
-
-    function loadSave() {
-      try {
-        const text = localStorage.getItem(SAVE_KEY) || localStorage.getItem(OLD_SAVE_KEY);
-        if (text) {
-          const data = JSON.parse(text);
-          const score = safeScore(data.score);
-          return {
-            name: typeof data.name === "string" && data.name.trim() ? data.name.trim().slice(0, 24) : "Aventurero",
-            score,
-            lifetimeHits: Math.max(score, safeScore(data.lifetimeHits)),
-            lastEntry: typeof data.lastEntry === "string" && !Number.isNaN(Date.parse(data.lastEntry)) ? data.lastEntry : null
-          };
-        }
-      } catch (error) {
-        console.warn("No se pudo leer la partida guardada.", error);
-      }
-      return { name: "Aventurero", score: 0, lifetimeHits: 0, lastEntry: null };
-    }
-
-    const restored = loadSave();
-    const state = {
-      name: restored.name,
-      score: restored.score,
-      // Contador acumulado de por vida, reservado para el futuro ranking.
-      // Reiniciar una partida no lo borra.
-      lifetimeHits: restored.lifetimeHits,
-      previousEntry: restored.lastEntry,
-      currentEntry: new Date().toISOString()
-    };
-
-    function saveGame() {
-      try {
-        localStorage.setItem(SAVE_KEY, JSON.stringify({
-          name: state.name,
-          score: state.score,
-          lifetimeHits: state.lifetimeHits,
-          lastEntry: state.currentEntry
-        }));
-      } catch (error) {
-        console.warn("No se pudo guardar la partida.", error);
-      }
-    }
-
-    function playerName() { return state.name.trim() || "Aventurero"; }
-    function formatNumber(number) { return new Intl.NumberFormat("es-EC").format(number); }
-    function formatDate(value) {
-      return new Intl.DateTimeFormat("es-EC", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
-    }
-    function levelFor(score) {
-      if (score <= 1000) return 0;
-      return Math.ceil(Math.log2(score / 1000));
-    }
-    function levelMaximum(level) { return 1000 * Math.pow(2, level); }
-    function seasonForLevel(level) {
-      const index = level % 4;
-      return { name: seasonNames[index], key: seasonKeys[index], icon: seasonIcons[index] };
-    }
-    function getLevelInfo(score) {
-      const level = levelFor(score);
-      const previousBoundary = level === 0 ? 0 : levelMaximum(level - 1);
-      const maximum = levelMaximum(level);
-      const progress = Math.max(0, Math.min(100, ((score - previousBoundary) / (maximum - previousBoundary)) * 100));
-      return { level, maximum, nextLevelAt: maximum + 1, progress, season: seasonForLevel(level) };
-    }
-
-    const $ = id => document.getElementById(id);
-    let animationTimer;
-    let messageTimer;
-
-    function setSceneSeason(scene, season) { scene.dataset.season = season.key; }
-
-    function updateAll() {
-      const info = getLevelInfo(state.score);
-      const name = playerName();
-      const prettyScore = formatNumber(state.score);
-      $("homeNameHeading").textContent = name;
-      $("homeName").textContent = name;
-      $("homeScore").textContent = prettyScore;
-      $("homeLevel").textContent = "Nivel " + info.level;
-      $("homeSeason").textContent = info.season.name;
-      $("homeSceneCaption").textContent = info.season.name.toUpperCase() + " · NIVEL " + info.level;
-      $("lastEntry").textContent = state.previousEntry
-        ? "Última entrada: " + formatDate(state.previousEntry)
-        : "Última entrada: primera sesión en este dispositivo";
-      $("gameName").textContent = name;
-      $("gameScore").textContent = prettyScore;
-      $("gameLevel").textContent = "Nivel " + info.level;
-      $("gameSceneCaption").textContent = info.season.name.toUpperCase() + " · NIVEL " + info.level;
-      $("progressLabel").textContent = "Progreso del nivel " + info.level;
-      $("progressPercent").textContent = Math.floor(info.progress) + "%";
-      $("progressFill").style.width = info.progress + "%";
-      $("nextLevelText").textContent = "Siguiente nivel: " + formatNumber(info.nextLevelAt) + " golpes";
-      $("headerSeason").textContent = info.season.icon + " " + info.season.name;
-      setSceneSeason($("homeScene"), info.season);
-      setSceneSeason($("gameScene"), info.season);
-    }
-
-    function showScreen(screenName) {
-      $("loadingScreen").hidden = true;
-      $("homeScreen").hidden = screenName !== "home";
-      $("gameScreen").hidden = screenName !== "game";
-      $("editNameButton").hidden = screenName !== "home";
-      $("resetButton").hidden = screenName !== "home";
-      window.scrollTo({ top: 0, behavior: "auto" });
-      updateAll();
-    }
-
-    function showGameMessage(text) {
-      $("gameMessage").textContent = text;
-      clearTimeout(messageTimer);
-      messageTimer = setTimeout(() => {
-        $("gameMessage").textContent = "¡Cada golpe te acerca al siguiente nivel!";
-      }, 1900);
-    }
-
-    function hitTree() {
-      const oldLevel = levelFor(state.score);
-      state.score += 1;
-      state.lifetimeHits += 1;
-      saveGame();
-      updateAll();
-      const newLevel = levelFor(state.score);
-      const klint = $("klintSprite");
-      const tree = $("gameTree");
-      klint.classList.remove("is-swinging");
-      tree.classList.remove("shaking");
-      void klint.getBoundingClientRect();
-      klint.classList.add("is-swinging");
-      tree.classList.add("shaking");
-      clearTimeout(animationTimer);
-      animationTimer = setTimeout(() => {
-        klint.classList.remove("is-swinging");
-        tree.classList.remove("shaking");
-      }, 360);
-      if (newLevel !== oldLevel) {
-        const season = seasonForLevel(newLevel);
-        showGameMessage("¡Nivel " + newLevel + "! ¡Ha llegado " + season.name.toLowerCase() + "!");
-      } else {
-        showGameMessage("¡Golpe número " + formatNumber(state.score) + "!");
-      }
-    }
-
-    function editPlayerName() {
-      const confirmed = window.confirm("¿Está seguro de cambiar el nombre?");
-      if (!confirmed) return;
-      const entered = window.prompt("Escriba el nuevo nombre de jugador:", state.name);
-      if (entered === null) return;
-      const newName = entered.trim().slice(0, 24);
-      if (!newName) {
-        window.alert("El nombre no puede quedar vacío.");
-        return;
-      }
-      state.name = newName;
-      saveGame();
-      updateAll();
-    }
-
-    function resetGame() {
-      const confirmed = window.confirm("¿Está seguro de reiniciar la partida? La puntuación de esta partida volverá a cero. El contador histórico de golpes se conservará para el futuro ranking.");
-      if (!confirmed) return;
-      state.score = 0;
-      // No reiniciar lifetimeHits: servirá para el ranking mundial de todos los tiempos.
-      saveGame();
-      updateAll();
-    }
-
-    $("editNameButton").addEventListener("click", editPlayerName);
-    $("resetButton").addEventListener("click", resetGame);
-    $("startButton").addEventListener("click", () => showScreen("game"));
-    $("hitButton").addEventListener("click", hitTree);
-    $("homeButton").addEventListener("click", () => showScreen("home"));
-
-    // Conserva el último acceso previo para mostrarlo; registra esta nueva sesión.
-    saveGame();
-    updateAll();
-    setTimeout(() => showScreen("home"), 850);
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
