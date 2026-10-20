@@ -1,21 +1,22 @@
-# Tamagotchi de Gongonia — v0.1
+# Tomagotchi de Gongonia — v0.2
 
-Primera versión experimental del juego, creada con HTML, CSS y JavaScript sin dependencias externas.
+Prototipo experimental de mascota virtual, creado con HTML, CSS y JavaScript sin dependencias externas.
 
 ## Incluye
-- Pantalla de carga con barra de progreso.
-- Pantalla de inicio con selección de Gonguito y créditos.
-- Ciclo vital de 180 minutos reales desde el nacimiento.
-- Ocho etapas de crecimiento en escala acelerada.
-- Lápida RIP al completar el ciclo; tocarla regresa al inicio.
-- Guarda el inicio del ciclo en el navegador para que el tiempo siga avanzando al cerrar la página.
+- Pantalla de carga e inicio con Gonguito y créditos.
+- Incubación visible: el huevo permanece en su nido durante 10 minutos.
+- Después de la incubación, Gonguito vive 2 horas reales.
+- Etapas visuales: recién nacido y bebé (gusanito bebé), adulto y viejo con lentes.
+- Lápida con RIP al terminar el ciclo; tocarla regresa al inicio.
+- Guarda la hora de inicio en el navegador, de modo que el ciclo sigue avanzando si se cierra la página.
+- Melodía fantástica creada con Web Audio, en bucle y con botón para activarla o pausarla. No necesita un archivo de música externo.
 
 ## Archivos
 - `index.html`: estructura de las pantallas.
 - `styles.css`: diseño visual y animaciones.
-- `app.js`: lógica del reloj y etapas de vida.
+- `app.js`: etapas de vida, reloj y música.
 
-## Probar localmente
-Abre `index.html` en un navegador moderno. Para publicar con Cloudflare Pages, conecta este repositorio, usa la rama `main`, deja el comando de compilación vacío y el directorio de salida como `/`.
+## Publicación
+El proyecto se publica como sitio estático mediante Cloudflare Workers con la carpeta `public` como directorio de recursos. Los archivos de esa carpeta son los que debe servir la versión publicada.
 
-**Versión:** 0.1 experimental.
+**Versión:** 0.2 experimental.
