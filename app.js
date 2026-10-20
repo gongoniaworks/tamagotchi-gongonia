@@ -153,7 +153,7 @@ function renderIncubation(elapsedSinceStart) {
   $("death-scene").hidden = true;
   $("incubation-visual").hidden = false;
   $("worm").hidden = true;
-  $("age-value").textContent = "Incubando";
+  $("age-value").textContent = "Huevo";
   $("stage-value").textContent = "Incubación";
   const percent = Math.min(100, (elapsedSinceStart / INCUBATION_MS) * 100);
   $("life-progress").style.width = percent + "%";
