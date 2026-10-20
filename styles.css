@@ -139,6 +139,7 @@ h1 span { color: var(--gold); }
 @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; } }
 
 /* Versión 0.2: incubación, etapas visuales, lentes y música */
+.worm { transition: transform 1s ease, filter 1s ease; }
 .music-button {
   border: 1px solid #b4c889;
   border-radius: 999px;
