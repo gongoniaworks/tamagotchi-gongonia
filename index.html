@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#173b2c">
-  <title>Tamagotchi de Gongonia</title>
+  <title>Tomagotchi de Gongonia · v0.2</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -23,23 +23,25 @@
     <section id="home-screen" class="screen home-screen" aria-label="Inicio">
       <header class="home-header">
         <p class="eyebrow">UN PEQUEÑO MUNDO MÁGICO</p>
-        <h1>Tamagotchi<br><span>de Gongonia</span></h1>
-        <p class="subtitle">Toda gran aventura comienza con una pequeña criatura.</p>
+        <h1>Tomagotchi<br><span>de Gongonia</span></h1>
+        <p class="subtitle">Primero un huevo, después un pequeño compañero.</p>
       </header>
       <div class="home-art" aria-hidden="true"><div class="glow-orb"></div><div class="sprout sprout-left">✦</div><div class="sprout sprout-right">✧</div><div class="nest"><div class="nest-straw straw-one"></div><div class="nest-straw straw-two"></div><div class="nest-straw straw-three"></div><div class="egg"><span class="egg-shine"></span><span class="egg-rune">✧</span></div></div></div>
       <div class="selection-panel">
         <p class="section-label">TU PRIMERA MASCOTA</p>
         <button id="pet-option" class="pet-option" type="button" aria-pressed="true">
           <span class="pet-icon" aria-hidden="true"><span class="mini-worm"><i></i><i></i><i></i></span></span>
-          <span class="pet-option-copy"><strong>Gonguito</strong><small>Insecto mágico · Versión de prueba</small></span>
+          <span class="pet-option-copy"><strong>Gonguito</strong><small>Gusanito mágico · Ciclo de 2 horas</small></span>
           <span class="selected-check" aria-hidden="true">✓</span>
         </button>
         <button id="start-button" class="primary-button" type="button">Comenzar aventura <span aria-hidden="true">➜</span></button>
       </div>
       <footer class="home-footer">
         <p>Una creación de <strong>Gongonia Works</strong></p>
+        <button id="music-toggle-home" class="music-button" type="button" aria-pressed="false">♫ Música: activar</button>
+        <p id="music-status" class="music-status">Activa la música o comienza la aventura para escuchar la melodía.</p>
         <button id="credits-button" class="text-button" type="button">Créditos</button>
-        <p class="version-label">VERSIÓN 0.1 · EXPERIMENTAL</p>
+        <p class="version-label">VERSIÓN 0.2 · EXPERIMENTAL</p>
       </footer>
       <div id="credits-panel" class="credits-panel" hidden>
         <div class="credits-card" role="dialog" aria-modal="true" aria-labelledby="credits-title">
@@ -54,20 +56,22 @@
     </section>
 
     <section id="pet-screen" class="screen pet-screen" aria-label="Mascota virtual">
-      <header class="pet-topbar"><button id="back-home-button" class="icon-button" type="button" aria-label="Volver al inicio">←</button><div><p class="eyebrow">TU COMPAÑERO</p><h2>Gonguito</h2></div><span class="life-chip">VIDA DE PRUEBA</span></header>
+      <header class="pet-topbar"><button id="back-home-button" class="icon-button" type="button" aria-label="Volver al inicio">←</button><div><p class="eyebrow">TU COMPAÑERO</p><h2>Gonguito</h2></div><span class="life-chip">VERSIÓN 0.2</span></header>
+      <div class="pet-controls"><button id="music-toggle-pet" class="music-button music-button--compact" type="button" aria-pressed="false">♫ Música: activar</button><span class="cycle-chip">10 MIN DE INCUBACIÓN · 2 H DE VIDA</span></div>
       <div class="pet-status"><div><span class="status-label">EDAD</span><strong id="age-value">0 min</strong></div><div class="stage-block"><span class="status-label">ETAPA</span><strong id="stage-value">Recién nacido</strong></div></div>
       <div id="living-scene" class="living-scene">
         <div class="scene-stars" aria-hidden="true"><span>✦</span><span>✧</span><span>·</span><span>✦</span></div>
         <div class="ground-hill hill-back"></div><div class="ground-hill hill-front"></div>
-        <div id="worm" class="worm" role="img" aria-label="Gonguito, el pequeño insecto mágico"><span class="worm-segment seg-1"></span><span class="worm-segment seg-2"></span><span class="worm-segment seg-3"></span><span class="worm-segment seg-4"></span><span class="worm-head"><i class="eye eye-left"></i><i class="eye eye-right"></i><span class="smile"></span><i class="antenna antenna-left"></i><i class="antenna antenna-right"></i></span></div>
-        <div class="scene-caption"><span class="pulse-dot"></span> Gonguito vive su ciclo vital</div>
+        <div id="incubation-visual" class="incubation-visual" hidden role="img" aria-label="Un huevo mágico en su nido, incubándose"><div class="incubation-glow"></div><div class="incubation-nest"><span class="incubation-straw straw-a"></span><span class="incubation-straw straw-b"></span><span class="incubation-straw straw-c"></span><div class="incubation-egg"><span class="incubation-shine"></span><span class="incubation-rune">✧</span><span class="egg-crack crack-one"></span><span class="egg-crack crack-two"></span></div></div></div>
+        <div id="worm" class="worm worm--baby" hidden role="img" aria-label="Gonguito, gusanito bebé"><span class="worm-segment seg-1"></span><span class="worm-segment seg-2"></span><span class="worm-segment seg-3"></span><span class="worm-segment seg-4"></span><span class="worm-head"><i class="eye eye-left"></i><i class="eye eye-right"></i><span class="glasses glasses-left"></span><span class="glasses glasses-right"></span><span class="glasses-bridge"></span><span class="smile"></span><i class="antenna antenna-left"></i><i class="antenna antenna-right"></i></span></div>
+        <div class="scene-caption"><span class="pulse-dot"></span> <span id="scene-caption-text">Un pequeño milagro está por nacer</span></div>
       </div>
       <div id="death-scene" class="death-scene" hidden role="button" tabindex="0" aria-label="Lápida de Gonguito. Toca para volver al inicio">
         <div class="moon">☾</div><div class="tombstone"><span class="tombstone-star">✦</span><strong>RIP</strong><span class="tombstone-line"></span><small>GONGUITO</small><span class="tombstone-flower">✿</span></div>
         <p class="death-title">El ciclo ha terminado</p><p class="death-copy">Las pequeñas estrellas siempre encuentran el camino a casa.</p><button id="return-home-button" class="primary-button" type="button">Volver al inicio ↺</button><p class="tap-hint">También puedes tocar la lápida</p>
       </div>
-      <div class="life-timeline"><div class="timeline-labels"><span>Nacimiento</span><span id="remaining-label">180 min de vida</span></div><div class="timeline-track"><div id="life-progress" class="timeline-fill"></div></div><div class="stage-track" id="stage-track"><span class="stage-dot active" title="Recién nacido"></span><span class="stage-dot" title="Bebé"></span><span class="stage-dot" title="Niño"></span><span class="stage-dot" title="Adolescente"></span><span class="stage-dot" title="Adulto joven"></span><span class="stage-dot" title="Adulto mayor"></span><span class="stage-dot" title="Viejo"></span><span class="stage-dot" title="Anciano"></span></div></div>
-      <footer class="pet-footer"><span>EXPERIMENTO DE CICLO VITAL</span><span>VERSIÓN 0.1</span></footer>
+      <div class="life-timeline"><div class="life-timeline"><div class="timeline-labels"><span id="timeline-left-label">Incubación</span><span id="remaining-label">Nace en 10 min</span></div><div class="timeline-track"><div id="life-progress" class="timeline-fill"></div></div><div class="stage-track" id="stage-track"><span class="stage-dot" title="Recién nacido"></span><span class="stage-dot" title="Bebé"></span><span class="stage-dot" title="Adulto"></span><span class="stage-dot" title="Viejo con lentes"></span></div></div>
+      <footer class="pet-footer"><span>EXPERIMENTO DE CICLO VITAL</span><span>VERSIÓN 0.2</span></footer>
     </section>
   </main>
   <script src="app.js"></script>
