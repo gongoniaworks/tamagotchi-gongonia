@@ -251,7 +251,7 @@ function returnToHome() {
   $("incubation-visual").hidden = true;
   $("worm").hidden = false;
   $("worm").classList.remove("worm--baby", "worm--adult", "worm--old");
-  $("age-value").textContent = "Incubando";
+  $("age-value").textContent = "Huevo";
   $("stage-value").textContent = "Incubación";
   $("life-progress").style.width = "0%";
   $("timeline-left-label").textContent = "Incubación";
